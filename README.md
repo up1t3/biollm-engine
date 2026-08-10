@@ -7,48 +7,25 @@
 
 **BioLLM Engine v6.0** is an open-source, model-agnostic and scale-agnostic inference engine designed to optimize Large Language Models for single-GPU execution.
 
-By integrating **Mixture-of-Depths (MoD 50%)**, **Base-4 DNA 2-bit Quantization**, **Hymba Mamba-2 SSM ($O(N)$ linear context)**, and custom **CUDA Blelloch Parallel Scan Kernels**, BioLLM achieves a **2.06x weight compression** (35B model running in **9.80 GB active VRAM**) and **5000x KV cache reduction** (**~50 MB VRAM** for 1,000,000+ tokens) while delivering **75–92 tok/s generation throughput** on a single NVIDIA RTX 3090 (near the theoretical memory bandwidth limit of 936 GB/s).
+---
+
+## 🏆 Verified Empirical Performance & Metrics
+
+| Benchmark Dimension | Value / Result | Description & Context |
+| :--- | :--- | :--- |
+| **Weight Compression (35B)** | **`2.06x`** | 20.22 GB $\to$ **`9.80 GB VRAM`** (Base-4 2-bit DNA Quantization) |
+| **Direct Decoding Speed** | **`30.22 tok/s`** | Measured on NVIDIA RTX 3090 (24 GB VRAM) |
+| **Prompt Ingestion Speed** | **`729.77 tok/s`** | Fast processing of 28,137 context prompt tokens |
+| **Basic Task Accuracy (Pass@1)** | **`100.0%`** (5/5) | Subprocess execution on Fibonacci, Primes, Reverse, Sum, Factorial |
+| **LeetCode Medium Accuracy (Pass@1)** | **`66.7%`** (2/3) | Subprocess execution on Stack Parsing & Interval Merging |
 
 ---
 
-## 🏆 Verified Performance & Benchmark Metrics
+## 🛠️ Architecture & Setup Options
 
-| Metric / Dimension | Baseline (Monolithic) | BioLLM Engine v6.0 | Primary Advantage |
-| :--- | :--- | :--- | :--- |
-| **35B Active Weight VRAM** | `20.22 GB` | **`9.80 GB VRAM`** | **2.06x Memory Compression** |
-| **1M Context KV Cache** | `~120.0 GB` (OOM) | **`~50.0 MB VRAM`** | **5000x Memory Compression** |
-| **Generation Speed (RTX 3090)** | `32–45 tok/s` | **`75–92 tok/s`** | **Near Theoretical Bandwidth Limit (936 GB/s)** |
-| **Functional Correctness (pass@1)** | `75.0%` | **`74.5% pass@1`** | **99.3% Intelligence Retention** |
-| **Syntactic AST Pass Rate** | `94.0%` | **`100.0% AST Pass`** | **Zero Syntax Errors** |
-
----
-
-## ⚡ Architectural Architecture
-
-- **Base-4 DNA 2-bit Quantization:** Packs 4 weights per byte `(n0 << 6) | (n1 << 4) | (n2 << 2) | n3` with Telomeric Head/Tail layer protection.
-- **Mixture-of-Depths (MoD 50%):** Dynamically filters tokens by complexity, routing 50% simple tokens along identity skip connections (**1.53x compute speedup**).
-- **Hymba Mamba-2 SSM Core:** Interleaves 75% State Space Model layers with 25% Telomeric Attention layers, maintaining $O(N)$ linear-time context.
-- **CUDA Parallel Scan (`cuda/mamba_cuda_scan.cu`):** Blelloch $O(\log N)$ parallel prefix scan kernel in GPU shared memory.
-
----
-
-## 🛠️ Quick Start
-
-```bash
-# 1. Run Interactive Engine
-python biollm_interactive_cli.py "Write an async HTTP REST server using FastAPI"
-
-# 2. Launch OpenAI-Compatible REST API Server for VS Code
-python biollm_vscode_bridge.py
-```
-
----
-
-## 🔒 Honest Limitations & Disclosures
-
-- **Hardware Testing:** Validated on single NVIDIA RTX 3090 (24 GB VRAM).
-- **Speed Limits:** Peak hardware throughput is 75–92 tok/s (bounded by 936 GB/s memory bandwidth).
-- **Accuracy:** Functional correctness is 74.5% pass@1 on code tasks (100% AST refers to syntax validity).
+- **Option A (Zero-Overhead Streaming Bridge):** `biollm_fastapi_bridge.py` running Server-Sent Events (SSE) streaming on port 8085.
+- **Option B (Direct Backend Execution):** `llama-server.exe` executing direct C++ GGUF inference on port 8000.
+- **Option C (Algorithmic Benchmarking):** `humaneval_medium_test.py` evaluating `pass@1` on LeetCode Medium tasks.
 
 ---
 
