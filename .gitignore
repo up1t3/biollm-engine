@@ -1,0 +1,15 @@
+# Virtual Environments & Binaries
+.venv/
+venv/
+*.gguf
+*.bin
+*.dll
+*.exe
+__pycache__/
+*.pyc
+
+# Logs & Temporary Files
+*.log
+scratch_tmp/
+.user_uploaded/
+converted_models/

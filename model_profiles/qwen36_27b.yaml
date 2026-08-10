@@ -1,0 +1,57 @@
+model_name: Qwen3.6-27B-Instruct
+architecture: qwen3
+source_format: gguf
+target_codec: biollm_base4
+
+paths:
+  source_model: E:/LMStudio/models/qwen3.6-27b/qwen3.6-27b-q4_k_m.gguf
+  output_model: converted_models/qwen36_27b.biollm
+  tokenizer: E:/LMStudio/models/qwen3.6-27b/tokenizer
+
+model:
+  hidden_size: 5120
+  num_hidden_layers: 64
+  num_attention_heads: 40
+  num_key_value_heads: 8
+  head_dim: 128
+  vocab_size: 152064
+  max_position_embeddings: 131072
+
+kv:
+  tokens_per_block: 64
+  dtype: fp16
+  layout: auto
+
+telomere:
+  head_tokens: 512
+  tail_tokens: 256
+  protect_head: true
+  protect_tail: true
+
+polya:
+  min_resident_blocks: 16
+  task_profiles:
+    code:
+      min_resident_blocks: 16
+    math:
+      min_resident_blocks: 16
+    json:
+      min_resident_blocks: 12
+    chat:
+      min_resident_blocks: 8
+
+proofreader:
+  enabled: true
+  fallback_precision: fp16
+  keep_fp16_layers:
+    - embed_tokens
+    - lm_head
+    - layers.0
+    - layers.1
+    - final_norm
+
+recovery:
+  crc32: true
+  quarantine: true
+  restore_from_backup: true
+  safe_degraded_mode: true

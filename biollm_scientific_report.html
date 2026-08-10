@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>BioLLM Scientific Evaluation Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 30px; }
+        h1 { color: #38bdf8; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #334155; padding: 12px; text-align: left; }
+        th { background: #0284c7; color: white; }
+        .badge-success { background: #16a34a; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .badge-fail { background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .recommendation { background: #0369a1; border-left: 6px solid #38bdf8; padding: 15px; border-radius: 6px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🧬 BioLLM Scientific Evaluation Report & Decision Gate</h1>
+    
+    <div class="card">
+        <h2>📊 Сравнение Памяти VRAM (Контекст 262k+)</h2>
+        <table>
+            <tr><th>Архитектура</th><th>Веса Модели (GB)</th><th>KV Cache 262k (GB)</th><th>ИТОГО VRAM (GB)</th></tr>
+            <tr><td><b>llama.cpp Q4_0 (v8.5 Production Baseline)</b></td><td>17.53 GB</td><td>1.500 GB</td><td><b>19.03 GB</b></td></tr>
+            <tr><td><b>BioLLM Poly-A (v3.5 Research IP Target)</b></td><td>6.70 GB</td><td>0.256 GB</td><td><b>6.96 GB</b></td></tr>
+        </table>
+        <p><b>Экономия VRAM: <span style="color: #4ade80;">63.4%</span></b></p>
+    </div>
+
+    <div class="card">
+        <h2>🎯 Точность Извлечения Данных (Needle Recall Matrix)</h2>
+        <table>
+            <tr><th>Глубина Контекста (%)</th><th>Статус Извлечения</th><th>Время Отклика</th><th>Скорость (tok/s)</th></tr>
+            <tr><td>0%</td><td><span class='badge-success'>PASSED</span></td><td>16.43s</td><td>30.43 tok/s</td></tr><tr><td>25%</td><td><span class='badge-success'>PASSED</span></td><td>13.52s</td><td>25.88 tok/s</td></tr><tr><td>50%</td><td><span class='badge-success'>PASSED</span></td><td>16.09s</td><td>27.78 tok/s</td></tr><tr><td>75%</td><td><span class='badge-success'>PASSED</span></td><td>15.54s</td><td>27.87 tok/s</td></tr><tr><td>90%</td><td><span class='badge-success'>PASSED</span></td><td>14.12s</td><td>31.23 tok/s</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>🧮 Логические Вычисления & Противоречия</h2>
+        <p>Multi-Hop Reasoning: <span class="badge-success">100% ВЕРНО (1440 USD <= 1500 USD)</span></p>
+        <p>Silent Wrong Answer Detection: <span class="badge-success">0% Ошибок (Противоречие вычислено)</span></p>
+    </div>
+
+    <div class="recommendation">
+        <h2>🏛️ Итоговый Вердикт (Decision Gate)</h2>
+        <p><b>1. Продакшн-базлайн v8.5:</b> Готов к ежедневной работе на 262k контекста.</p>
+        <p><b>2. Исследовательский контур:</b> Подтверждена потенциальная экономия VRAM 63.4%.</p>
+    </div>
+</body>
+</html>

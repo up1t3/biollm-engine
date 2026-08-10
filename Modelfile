@@ -1,0 +1,3 @@
+FROM E:\LMStudio\models\HauhauCS\Qwen3.6-27B-Uncensored-HauhauCS-Balanced\Qwen3.6-27B-Uncensored-HauhauCS-Balanced-Q4_K_P.gguf
+PARAMETER num_ctx 32768
+PARAMETER num_gpu 99
