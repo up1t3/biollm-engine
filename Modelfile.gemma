@@ -1,0 +1,9 @@
+FROM E:/AntiCRM/models/gemma-4-12B-it-Q4_K_M.gguf
+TEMPLATE """{{ if .System }}<start_of_turn>system
+{{ .System }}<end_of_turn>
+{{ end }}{{ if .Prompt }}<start_of_turn>user
+{{ .Prompt }}<end_of_turn>
+{{ end }}<start_of_turn>model
+{{ .Response }}<end_of_turn>"""
+PARAMETER stop "<end_of_turn>"
+PARAMETER num_ctx 8192
