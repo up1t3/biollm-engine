@@ -1,0 +1,32 @@
+{
+  "models": [
+    {
+      "title": "BioLLM DeepSeek-R1 32B (Local GPU)",
+      "provider": "openai",
+      "model": "deepseek-r1:32b",
+      "apiBase": "http://localhost:8000/v1",
+      "apiKey": "biollm-local-key"
+    },
+    {
+      "title": "BioLLM Qwen2.5-Coder 32B (Local GPU)",
+      "provider": "openai",
+      "model": "qwen2.5-coder:32b",
+      "apiBase": "http://localhost:8000/v1",
+      "apiKey": "biollm-local-key"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "BioLLM Local Inline Autocomplete",
+    "provider": "openai",
+    "model": "deepseek-r1:32b",
+    "apiBase": "http://localhost:8000/v1",
+    "apiKey": "biollm-local-key"
+  },
+  "customCommands": [
+    {
+      "name": "refactor-async",
+      "prompt": "Перепиши этот код на чистый асинхронный asyncio + aiohttp стиль с вынесением типов и обработки ошибок.",
+      "description": "Асинхронный рефакторинг BioLLM v6.0"
+    }
+  ]
+}
